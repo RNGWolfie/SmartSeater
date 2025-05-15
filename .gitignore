@@ -1,0 +1,11 @@
+#Pycharm Settings
+.idea/
+shelf/
+workspace.*
+
+# Ignore virtual environment
+.venv/
+
+# Ignore Python cache/bytecode
+__pycache__/
+*.pyc
