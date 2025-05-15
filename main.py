@@ -163,9 +163,6 @@ def dashboard(username):
 
     dashboard_label = tk.Label(dashboard_frame, text=f"Welcome back, {username}", font=("Times New Roman", 24))
     dashboard_label.pack(pady=(25,0), anchor="center")
-    
-    message_label = tk.Label(dashboard_frame, text="What do you want to do?", font=("Times New Roman", 18))
-    message_label.pack(pady=(25,0), anchor="center")
 
 root = tk.Tk()
 root.title("SmartSeater")
