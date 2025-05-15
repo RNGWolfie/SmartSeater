@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from database import add_user, get_user, delete_user
 
-def signup():
+def signup(main_label, button_frame):
     main_label.pack_forget()
     button_frame.pack_forget()
 
@@ -41,7 +41,7 @@ def signup():
 
     account_type_label= tk.Label(signup_frame, text="Account Type:", font=("Times New Roman", 18))
     account_type_label.pack(pady=(25,5))
-    account_type_selection = ttk.Combobox(signup_frame, values=["Manager", "Employee"])
+    account_type_selection = ttk.Combobox(signup_frame, values=["Manager", "Employee", "Customer", "Applicant"])
     account_type_selection.pack(pady=(0,25))
 
     signup_btn = tk.Button(
@@ -56,7 +56,9 @@ def signup():
             password_entry,
             confirm_password_entry,
             phone_number_entry,
-            account_type_selection
+            account_type_selection,
+            main_label,
+            button_frame
         )
     )
     signup_btn.pack(pady=(25,0), anchor="center")
@@ -66,11 +68,11 @@ def signup():
         text="Home",
         font=("Times New Roman", 18),
         borderwidth=5,
-        command=lambda: return_home(signup_frame)
+        command=lambda: return_home(signup_frame, main_label, button_frame)
     )
     home_btn.pack(pady=(25,0), anchor="center")
 
-def signup_action(signup_frame, username_entry, email_entry, password_entry, confirm_password_entry, phone_number_entry, account_type_selection):
+def signup_action(signup_frame, username_entry, email_entry, password_entry, confirm_password_entry, phone_number_entry, account_type_selection, main_label, button_frame):
     username = username_entry.get()
     email = email_entry.get()
     password = password_entry.get()
@@ -94,16 +96,16 @@ def signup_action(signup_frame, username_entry, email_entry, password_entry, con
         add_user(username, email, password, phone_number, account_type)
         tk.messagebox.showinfo(title="Success", message="Account created successfully.")
         signup_frame.pack_forget()
-        login()
+        login(main_label, button_frame)
     except Exception as e:
         tk.messagebox.showinfo(title="Error", message=f"An error occurred: {e}")
 
-def return_home(current_frame):
+def return_home(current_frame, main_label, button_frame):
     current_frame.pack_forget()
     main_label.pack(pady=(375,0), anchor="center")
     button_frame.pack(pady=(25, 0), anchor="center")
 
-def login():
+def login(main_label, button_frame):
     main_label.pack_forget()
     button_frame.pack_forget()
 
@@ -137,7 +139,7 @@ def login():
         text="Home",
         font=("Times New Roman", 18),
         borderwidth=5,
-        command=lambda: return_home(login_frame)
+        command=lambda: return_home(login_frame, main_label, button_frame)
     )
     home_btn.pack(pady=(25, 0), anchor="center")
 
@@ -151,46 +153,72 @@ def login_action(username_entry, password_entry, login_frame):
     else:
         user = get_user(username)
         if user and user[3] == password:
-            tk.messagebox.showinfo(title="Success", message="Login successful.")
-            login_frame.pack_forget()
-            dashboard(username)
+            if user[5] == "Employee":
+                tk.messagebox.showinfo(title="Success", message="Login successful.")
+                login_frame.pack_forget()
+                employee_dashboard(username)
+            elif user[5] == "Manager":
+                tk.messagebox.showinfo(title="Success", message="Login successful.")
+                login_frame.pack_forget()
+                manager_dashboard(username)
+            elif user[5] == "Customer":
+                tk.messagebox.showinfo(title="Success", message="Login successful.")
+                login_frame.pack_forget()
+                customer_dashboard(username)
+            elif user[5] == "Applicant":
+                tk.messagebox.showinfo(title="Success", message="Login successful.")
+                login_frame.pack_forget()
+                applicant_dashboard(username)
         else:
             tk.messagebox.showinfo(title="Error", message="Invalid username or password.")
+ 
+def employee_dashboard(username):
+    #TODO: Add employee dashboard code here
+    pass
 
-def dashboard(username):
-    dashboard_frame = tk.Frame()
-    dashboard_frame.pack()
+def manager_dashboard(username):
+    #TODO: Add manager dashboard code here
+    pass
 
-    dashboard_label = tk.Label(dashboard_frame, text=f"Welcome back, {username}", font=("Times New Roman", 24))
-    dashboard_label.pack(pady=(25,0), anchor="center")
+def customer_dashboard(username):
+    #TODO: Add customer dashboard code here
+    pass
 
-root = tk.Tk()
-root.title("SmartSeater")
-root.state("zoomed")
+def applicant_dashboard(username):
+    #TODO: Add applicant dashboard code here
+    pass
 
-main_label = tk.Label(text="Welcome to SmartSeater", font=("Times New Roman", 24))
-main_label.pack(pady=(375,0), anchor="center")
+def main():
 
-button_frame = tk.Frame()
-button_frame.pack(pady=(25,0), anchor="center")
+    root = tk.Tk()
+    root.title("SmartSeater")
+    root.state("zoomed")
 
-login_btn = tk.Button(
-    button_frame,
-    text="Login",
-    font=("Times New Roman", 18),
-    borderwidth=5,
-    command=login
-)
-login_btn.pack(anchor="center", side=tk.LEFT, padx=(0, 5))
+    main_label = tk.Label(text="Welcome to SmartSeater", font=("Times New Roman", 24))
+    main_label.pack(pady=(375,0), anchor="center")
+
+    button_frame = tk.Frame()
+    button_frame.pack(pady=(25,0), anchor="center")
+
+    login_btn = tk.Button(
+        button_frame,
+        text="Login",
+        font=("Times New Roman", 18),
+        borderwidth=5,
+        command= lambda: login(main_label, button_frame)
+    )
+    login_btn.pack(anchor="center", side=tk.LEFT, padx=(0, 5))
 
 
-signup_btn = tk.Button(
-    button_frame,
-    text="Sign Up",
-    font=("Times New Roman", 18),
-    borderwidth=5,
-    command=signup
-)
-signup_btn.pack(anchor="center", side=tk.LEFT, padx=(5, 0))
+    signup_btn = tk.Button(
+        button_frame,
+        text="Sign Up",
+        font=("Times New Roman", 18),
+        borderwidth=5,
+         command= lambda: signup(main_label, button_frame)
+    )
+    signup_btn.pack(anchor="center", side=tk.LEFT, padx=(5, 0))
 
-root.mainloop()
+    root.mainloop()
+
+main()

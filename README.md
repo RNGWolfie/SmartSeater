@@ -1,5 +1,9 @@
 # SmartSeater - Restaurant Management App
 
+SmartSeater is open-source under the [MIT License](./LICENSE).  
+Commercial use by organizations exceeding certain thresholds requires a [Commercial License](./COMMERCIAL_LICENSE).  
+Contact omnidevsolutionsllc.help@gmail.com for details.
+
 SmartSeater is a comprehensive restaurant management app designed to streamline operations for both employees and managers. It offers a variety of features that enhance scheduling, seating, and real-time reservation management, improving the overall dining experience for customers and staff.
 
 **The user interface and graphics are implemented using Tkinter**, a popular GUI library for Python, which makes it simple to create visually appealing and responsive desktop applications.
@@ -30,8 +34,8 @@ SmartSeater is a comprehensive restaurant management app designed to streamline 
 - **Database:** SQLite
 
 ## Helpful Notes
--As of now, there are 2 test accounts - all credentials are "test" and "test2"
--Test is employee, test2 is manager
+-As of now, there are 4 test accounts - all credentials are "test" and "test2"
+-Test is "Manager", test2 is "Employee", test3 is "Customer", test4 is "Applicant"
 
 
 ## Installation

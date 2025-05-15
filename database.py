@@ -8,15 +8,16 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT NOT NULL,
     password TEXT NOT NULL,
     phone_number TEXT NOT NULL,
-    account_type TEXT NOT NULL
+    account_type TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ''')
 conn.commit()
 
 def add_user(username, email, password, phone_number, account_type='Employee'):
     conn.execute('''
-    INSERT INTO users (username, email, password, phone_number, account_type)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO users (username, email, password, phone_number, account_type, created_at)
+    VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     ''', (username, email, password, phone_number, account_type))
     conn.commit()
 
