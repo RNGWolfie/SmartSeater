@@ -29,6 +29,11 @@ SmartSeater is a comprehensive restaurant management app designed to streamline 
 - **Backend:** Python-based backend; a desktop application with direct database interaction through custom functions.
 - **Database:** SQLite
 
+## Helpful Notes
+-As of now, there are 2 test accounts - all credentials are "test" and "test2"
+-Test is employee, test2 is manager
+
+
 ## Installation
 
 To get started with **SmartSeater**, follow these steps:
