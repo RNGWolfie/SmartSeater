@@ -34,7 +34,7 @@ SmartSeater is a comprehensive restaurant management app designed to streamline 
 - **Database:** SQLite
 
 ## Helpful Notes
--As of now, there are 4 test accounts - all credentials are "test" with 2-4 being followed by there respective numbers.
+-As of now, there are 4 test accounts - all credentials are "test" with 2-4 being followed by their respective numbers.
 -Test is "Manager", test2 is "Employee", test3 is "Customer", test4 is "Applicant"
 
 

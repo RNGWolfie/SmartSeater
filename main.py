@@ -1,4 +1,6 @@
-import datetime
+import os
+import base64
+import hashlib
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -93,7 +95,8 @@ def signup_action(signup_frame, username_entry, email_entry, password_entry, con
         return
 
     try:
-        add_user(username, email, password, phone_number, account_type)
+        hashed_password = hash_password(password)
+        add_user(username, email, hashed_password, phone_number, account_type)
         tk.messagebox.showinfo(title="Success", message="Account created successfully.")
         signup_frame.pack_forget()
         login(main_label, button_frame)
@@ -150,9 +153,10 @@ def login_action(username_entry, password_entry, login_frame):
     if not username or not password:
         tk.messagebox.showinfo(title="Error", message="Please fill in all fields.")
         return
+    
     else:
         user = get_user(username)
-        if user and user[3] == password:
+        if user and verify_password(password, user[3]):
             if user[5] == "Employee":
                 tk.messagebox.showinfo(title="Success", message="Login successful.")
                 login_frame.pack_forget()
@@ -187,6 +191,19 @@ def customer_dashboard(username):
 def applicant_dashboard(username):
     #TODO: Add applicant dashboard code here
     pass
+
+def hash_password(password):
+    salt = os.urandom(32)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    storage = salt + key
+    return base64.b64encode(storage).decode('utf-8')
+
+def verify_password(password, stored_password_hash):
+    storage = base64.b64decode(stored_password_hash.encode('utf-8'))
+    salt = storage[:32]
+    stored_key = storage[32:]
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    return key == stored_key
 
 def main():
 
