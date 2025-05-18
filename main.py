@@ -38,6 +38,8 @@ class Login:
             text="Login",
             font=("Times New Roman", 18),
             borderwidth=5,
+            bg="#4a90e2",
+            fg="white",
             command=lambda: self.login_action(username_entry, password_entry, self.login_frame)
         )
         login_btn.pack(pady=(25,0), anchor="center")
@@ -47,6 +49,8 @@ class Login:
             text="Home",
             font=("Times New Roman", 18),
             borderwidth=5,
+            bg="#4a90e2",
+            fg="white",
             command=lambda: return_home(self.login_frame, self.main_label, self.button_frame)
         )
         home_btn.pack(pady=(25, 0), anchor="center")
@@ -65,19 +69,19 @@ class Login:
                 if user[5] == "Employee":
                     tk.messagebox.showinfo(title="Success", message="Login successful.")
                     login_frame.pack_forget()
-                    Dashboards.employee_dashboard(username)
+                    EmployeeDashboard(self.root, username)
                 elif user[5] == "Manager":
                     tk.messagebox.showinfo(title="Success", message="Login successful.")
                     login_frame.pack_forget()
-                    Dashboards.manager_dashboard(username)
+                    ManagerDashboard(self.root, username)
                 elif user[5] == "Customer":
                     tk.messagebox.showinfo(title="Success", message="Login successful.")
                     login_frame.pack_forget()
-                    Dashboards.customer_dashboard(username)
+                    CustomerDashboard(self.root, username)
                 elif user[5] == "Applicant":
                     tk.messagebox.showinfo(title="Success", message="Login successful.")
                     login_frame.pack_forget()
-                    Dashboards.applicant_dashboard(username)
+                    ApplicantDashboard(self.root, username)
             else:
                 tk.messagebox.showinfo(title="Error", message="Invalid username or password.")
 
@@ -133,6 +137,8 @@ class Signup:
             text="Sign Up",
             font=("Times New Roman", 18),
             borderwidth=5,
+            bg="#4a90e2",
+            fg="white",
             command=lambda: self.signup_action(
                 self.signup_frame,
                 username_entry,
@@ -152,6 +158,8 @@ class Signup:
             text="Home",
             font=("Times New Roman", 18),
             borderwidth=5,
+            bg="#4a90e2",
+            fg="white",
             command=lambda: return_home(self.signup_frame, self.main_label, self.button_frame)
         )
         home_btn.pack(pady=(25,0), anchor="center")
@@ -186,12 +194,14 @@ class Signup:
             tk.messagebox.showinfo(title="Error", message=f"An error occurred: {e}")
 
 class PasswordManager:
+    @staticmethod
     def hash_password(password):
         salt = os.urandom(32)
         key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
         storage = salt + key
         return base64.b64encode(storage).decode('utf-8')
 
+    @staticmethod
     def verify_password(password, stored_password_hash):
         storage = base64.b64decode(stored_password_hash.encode('utf-8'))
         salt = storage[:32]
@@ -199,20 +209,25 @@ class PasswordManager:
         key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
         return key == stored_key
 
-class Dashboards:
-    def employee_dashboard(username):
-        #TODO: Add employee dashboard code here
-        pass
+class EmployeeDashboard:
+    def __init__(self, root, username):
+        self.root = root
+        self.username = username
+        self.build_employee_dashboard()
 
-    def manager_dashboard(username):
+    def build_employee_dashboard(self):
+        employee_welcome_label = tk.Label(self.root, text=f"Welcome, {self.username}!", font=("Times New Roman", 24), bg="#f0f0f5", fg="#222222")
+        employee_welcome_label.pack(pady=(175,0), anchor="center")
+
+class ManagerDashboard:
         #TODO: Add manager dashboard code here
         pass
 
-    def customer_dashboard(username):
+class CustomerDashboard:
         #TODO: Add customer dashboard code here
         pass
 
-    def applicant_dashboard(username):
+class ApplicantDashboard:
         #TODO: Add applicant dashboard code here
         pass
 
@@ -225,8 +240,9 @@ def main():
     root = tk.Tk()
     root.title("SmartSeater")
     root.state("zoomed")
+    root.configure(bg="#f0f0f5")
 
-    main_label = tk.Label(text="Welcome to SmartSeater", font=("Times New Roman", 24))
+    main_label = tk.Label(text="Welcome to SmartSeater", font=("Times New Roman", 24), bg="#f0f0f5", fg="#222222")
     main_label.pack(pady=(375,0), anchor="center")
 
     button_frame = tk.Frame()
@@ -237,17 +253,21 @@ def main():
         text="Login",
         font=("Times New Roman", 18),
         borderwidth=5,
+        bg="#4a90e2",
+        fg="white",
         command= lambda: Login(root, main_label, button_frame)
+        
     )
     login_btn.pack(anchor="center", side=tk.LEFT, padx=(0, 5))
-
 
     signup_btn = tk.Button(
         button_frame,
         text="Sign Up",
         font=("Times New Roman", 18),
         borderwidth=5,
-         command= lambda: Signup(root, main_label, button_frame)
+        bg="#4a90e2",
+        fg="white",
+        command= lambda: Signup(root, main_label, button_frame)
     )
     signup_btn.pack(anchor="center", side=tk.LEFT, padx=(5, 0))
 
